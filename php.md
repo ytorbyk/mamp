@@ -49,7 +49,7 @@ $ sphp 70
 ```bash
 # Run next commanda for each php version
 $ sphp 70
-$ brew install php70-opcache php70-apcu php70-xdebug --build-from-source
+$ brew install php70-opcache php70-apcu php70-intl php70-mcrypt php70-xdebug php70-ioncubeloader --build-from-source
 ```
 
 #### Install XDebug toggle
