@@ -6,3 +6,4 @@
 * [Install and configure Php](php.md)
 * [Install and configure MySQL](mysql.md)
 * [Install and configure Dnsmasq](dnsmasq.md)
+* [Configuration cron](cron.md)
