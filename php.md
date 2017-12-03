@@ -30,7 +30,7 @@ sendmail_path = /Users/<your-user>/Support/smtp_catcher.php
 
 #### Install PHP SMTP catcher
 ```bash
-$ curl -L https://gist.github.com/9868298c8671a493737a53184854f0b9.git > /Users/<your-user>/Support/smtp_catcher.php
+$ curl -L https://gist.github.com/ytorbyk/9868298c8671a493737a53184854f0b9/raw > /Users/<your-user>/Support/smtp_catcher.php
 $ chmod +x /Users/<your-user>/Support/smtp_catcher.php
 ```
 

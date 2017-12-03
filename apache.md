@@ -142,8 +142,8 @@ Include /Users/<your-user>/Support/apache-vhosts/*.conf
     
     ServerName localhost
     
-    ErrorLog "/Users/<your-user>/Support/apache-log/localhost-error_log"
-    CustomLog "/Users/<your-user>/Support/apache-log/localhost-access_log" common
+    ErrorLog "/Users/<your-user>/Support/apache-log/localhost-error.log"
+    CustomLog "/Users/<your-user>/Support/apache-log/localhost-access.log" common
 </VirtualHost>
 
 Listen 443
@@ -161,8 +161,8 @@ SSLSessionCacheTimeout  300
     
     ServerName localhost
     
-    ErrorLog "/Users/<your-user>/Support/apache-log/localhost-ssl-error_log"
-    CustomLog "/Users/<your-user>/Support/apache-log/localhost-ssl-access_log" common
+    ErrorLog "/Users/<your-user>/Support/apache-log/localhost-ssl-error.log"
+    CustomLog "/Users/<your-user>/Support/apache-log/localhost-ssl-access.log" common
     
     SSLEngine on
     SSLCertificateFile "/Users/<your-user>/Support/apache-ssl/server.crt"
