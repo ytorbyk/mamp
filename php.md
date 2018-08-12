@@ -99,7 +99,7 @@ Download the file https://downloads.ioncube.com/loader_downloads/ioncube_loaders
 # Open the folder in terminal
 # Run the command for each php version
 sphp <version>
-cp ioncube_loader_dar_<version>.so $(pecl config-get ext_dir)/ioncube.so
+cp ioncube_loader_dar_<php-version>.so $(pecl config-get ext_dir)/ioncube.so
 ```
 ```ini
 # Create the file /usr/local/etc/php/<php-version>/conf.d/ext-ioncube.ini and add the next into it
