@@ -100,43 +100,6 @@ $ cd $HOME/Support/apache-ssl
 $ openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout server.key -out server.crt
 ```
 
-#### Configure default virtual host.
-Create /Users/<username>/Support/apache-vhosts/localhost.conf file and put the next into it
-
-```ini
-<VirtualHost *:80>
-    DocumentRoot "/Users/<username>/Support/localhost"
-    
-    ServerName localhost
-    
-    ErrorLog "/Users/<your-user>/Support/apache-log/localhost-error.log"
-    CustomLog "/Users/<your-user>/Support/apache-log/localhost-access.log" common
-</VirtualHost>
-
-Listen 443
-SSLCipherSuite HIGH:MEDIUM:!MD5:!RC4
-SSLProxyCipherSuite HIGH:MEDIUM:!MD5:!RC4
-SSLHonorCipherOrder on
-SSLProtocol all -SSLv3
-SSLProxyProtocol all -SSLv3
-SSLPassPhraseDialog  builtin
-SSLSessionCache        "shmcb:/usr/local/var/run/apache2/ssl_scache(512000)"
-SSLSessionCacheTimeout  300
-
-<VirtualHost *:443>
-    DocumentRoot "/Users/<your-user>/Support/localhost"
-    
-    ServerName localhost
-    
-    ErrorLog "/Users/<username>/Support/apache-log/localhost-ssl-error.log"
-    CustomLog "/Users/<username>/Support/apache-log/localhost-ssl-access.log" common
-    
-    SSLEngine on
-    SSLCertificateFile "/Users/<your-user>/Support/apache-ssl/server.crt"
-    SSLCertificateKeyFile "/Users/<your-user>/Support/apache-ssl/server.key"
-</VirtualHost>
-```
-
 #### Use next template for config.
 ```ini
 #
