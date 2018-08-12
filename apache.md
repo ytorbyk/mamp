@@ -100,7 +100,10 @@ $ cd $HOME/Support/apache-ssl
 $ openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout server.key -out server.crt
 ```
 
-#### Use next template for config.
+#### Use next template for configuring virtual hosts.
+
+The configuration should be placed in `/Users/<username>/Support/apache-vhosts` folder
+
 ```ini
 #
 # <site-domain>.test
