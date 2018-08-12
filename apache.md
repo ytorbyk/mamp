@@ -38,7 +38,7 @@ Open `/usr/local/etc/httpd/httpd.conf` file in any text editor and add the next 
 Include /Users/<username>/Support/httpd.conf
 ```
 
-Create the file and put next content into
+Create /Users/`<username>`/Support/httpd.conf file and put next content into
 ```ini
 Listen 80
 ServerName localhost
