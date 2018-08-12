@@ -7,7 +7,7 @@ $ brew install php@7.1
 $ brew install php
 ```
 
-#### Create the file for each php version /usr/local/etc/php/<php-version>/conf.d/z-performance.ini and the next into
+#### Create the file for each php version /usr/local/etc/php/`<php-version>`/conf.d/z-performance.ini and the next into
 ```ini
 ; Add TIMEZONE string for replacing with machine timezone
 date.timezone = "Europe/Kiev"
@@ -79,7 +79,7 @@ xdebug on|off --no-server-restart # toggles xdebug without restarting apache or 
 ```
 #### Configure XDebug for each php version
 
-Remove `zend_extension="xdebug.so"` line from the beginning of the /usr/local/etc/php/<php-version>/php.ini file
+Remove `zend_extension="xdebug.so"` line from the beginning of the /usr/local/etc/php/`<php-version>`/php.ini file
 
 ```ini
 # Create the file /usr/local/etc/php/<php-version>/conf.d/ext-xdebug.ini and add the next into it
