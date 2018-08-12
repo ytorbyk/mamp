@@ -1,12 +1,12 @@
 # Intall MySQL
 
 ```bash
-$ brew install mysql
+$ brew install mysql@5.7
 ```
 
 #### Make mysql auto-start on login
 ```bash
-$ brew services start mysql
+$ brew services start mysql@5.7
 ```
 
 #### start|stop|restart commands
@@ -26,17 +26,19 @@ $ mysql_secure_installation
 
 Open `/usr/local/etc/my.cnf` file and replace with
 ```ini
-# Default Homebrew MySQL server config
-[mysqld]
+[client]
+user=root
+password=<root-password>
 
-# Only allow connections from localhost
+[mysqld]
+sql_mode="NO_AUTO_VALUE_ON_ZERO"
 bind-address = 127.0.0.1
 
 collation_server=utf8_general_ci
 character_set_server=utf8
 init-connect='SET NAMES utf8'
 
-max_allowed_packet      = 10G 
+max_allowed_packet      = 1073741824
 innodb_strict_mode      = off
 query_cache_limit       = 64M
 query_cache_size        = 512M
@@ -51,15 +53,11 @@ innodb_lock_wait_timeout= 200
 log-queries-not-using-indexes
 long_query_time         = 2
 skip-external-locking
-sql_mode=
 
 #innodb_force_recovery = 1
-[client]
-
-[mysql]
 
 [mysqldump]
 quick
 quote-names
-max_allowed_packet = 10G
+max_allowed_packet = 1073741824
 ```

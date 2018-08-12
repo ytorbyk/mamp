@@ -21,12 +21,6 @@ Homebrew 1.3.6
 Homebrew/homebrew-core (git revision 9f071; last commit 2017-11-04)
 ```
 
-#### Add Extra Brew Taps and Updating
-```bash
-$ brew tap homebrew/php
-$ brew update
-```
-
 #### Autoinstall services
 ```bash
 $ brew services list

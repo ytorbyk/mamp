@@ -7,3 +7,5 @@
 * [Install and configure MySQL](mysql.md)
 * [Install and configure Dnsmasq](dnsmasq.md)
 * [Configuration cron](cron.md)
+
+All the configuration and a little more can do [sage](https://github.com/ytorbyk/sage) application.

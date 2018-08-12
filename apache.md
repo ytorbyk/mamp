@@ -32,56 +32,29 @@ Create next folders:
 - `~/Support/apache-vhosts`
 - `~/Support/localhost`
 
-Open `/usr/local/etc/httpd/httpd.conf` file in any text editor
+Open `/usr/local/etc/httpd/httpd.conf` file in any text editor and add the next line to the end of file
 
-#### Replace
 ```ini
-Listen 8080
--
+Include /Users/<username>/Support/httpd.conf
+```
+
+Create the file and put next content into
+```ini
 Listen 80
-```
-```ini
-DocumentRoot "/usr/local/var/www/htdocs"
-<Directory "/usr/local/var/www/htdocs">
--
-DocumentRoot "/Users/<your-user>/Support/localhost"
-<Directory "/Users/<your-user>/Support/localhost">
-```
-```ini
-# in the same <Directory> block
-AllowOverride None
--
-AllowOverride All
-```
-```ini
-User www-data
-Group www-data
--
-User <your-user>
-Group staff
-```
-```ini
-#ServerName www.example.com:8080
--
 ServerName localhost
-```
-```ini
-# after all php verstions are installed
-LoadModule php5_module    /usr/local/opt/php54/libexec/apache2/libphp7.so
-LoadModule php5_module    /usr/local/opt/php55/libexec/apache2/libphp7.so
-LoadModule php5_module    /usr/local/opt/php56/libexec/apache2/libphp5.so
-LoadModule php7_module    /usr/local/opt/php70/libexec/apache2/libphp7.so
-LoadModule php7_module    /usr/local/opt/php71/libexec/apache2/libphp7.so
--
-# Brew PHP LoadModule for `sphp` switcher
-LoadModule php5_module /usr/local/lib/libphp5.so
-#LoadModule php7_module /usr/local/lib/libphp7.so
-```
-```ini
-<IfModule dir_module>
-    DirectoryIndex index.html
-</IfModule>
--
+
+User <username>
+Group staff
+
+LoadModule rewrite_module lib/httpd/modules/mod_rewrite.so
+LoadModule vhost_alias_module lib/httpd/modules/mod_vhost_alias.so
+LoadModule socache_shmcb_module lib/httpd/modules/mod_socache_shmcb.so
+LoadModule ssl_module lib/httpd/modules/mod_ssl.so
+
+LoadModule proxy_module lib/httpd/modules/mod_proxy.so
+LoadModule proxy_http_module lib/httpd/modules/mod_proxy_http.so
+
+
 <IfModule dir_module>
     DirectoryIndex index.php index.html
 </IfModule>
@@ -89,56 +62,50 @@ LoadModule php5_module /usr/local/lib/libphp5.so
 <FilesMatch \.php$>
     SetHandler application/x-httpd-php
 </FilesMatch>
-```
-```ini
-<Directory />
-    AllowOverride none
-    Require all denied
-</Directory>
--
+
 <Directory />
     AllowOverride All
     Require all granted
 </Directory>
-```
-```ini
-ErrorLog "/usr/local/var/log/apache2/error_log"
--
-ErrorLog "/Users/<your-user>/Support/apache-log/error.log"
-```
-```ini
-CustomLog "/usr/local/var/log/apache2/access_log" common
--
-CustomLog "/Users/<your-user>/Support/apache-log/access.log" common
-```
 
-#### Uncomment
-```
-LoadModule rewrite_module lib/httpd/modules/mod_rewrite.so
-LoadModule vhost_alias_module lib/httpd/modules/mod_vhost_alias.so
-LoadModule socache_shmcb_module lib/httpd/modules/mod_socache_shmcb.so
-LoadModule ssl_module lib/httpd/modules/mod_ssl.so
+ErrorLog "/Users/<username>/Support/apache-log/apache-error.log"
+<IfModule log_config_module>
+    LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined
+    LogFormat "%h %l %u %t \"%r\" %>s %b" common
+
+    <IfModule logio_module>
+      LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %I %O" combinedio
+    </IfModule>
+
+    CustomLog "/Users/<username>/Support/apache-log/apache-access.log" common
+</IfModule>
+
+Listen 443
+SSLCipherSuite HIGH:MEDIUM:!MD5:!RC4
+SSLProxyCipherSuite HIGH:MEDIUM:!MD5:!RC4
+SSLHonorCipherOrder on
+SSLProtocol all -SSLv3
+SSLProxyProtocol all -SSLv3
+SSLPassPhraseDialog  builtin
+SSLSessionCache        "shmcb:/usr/local/var/run/apache2/ssl_scache(512000)"
+SSLSessionCacheTimeout  300
+
+Include /Users/<username>/Support/apache-vhosts/localhost.conf
+Include /Users/<username>/Support/apache-vhosts/*.conf
 ```
 
 #### Generage ssl certificates
 ```bash
-$ cd /Users/<your-user>/Support/apache-ssl
+$ cd $HOME/Support/apache-ssl
 $ openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout server.key -out server.crt
 ```
 
-#### Configure default virtual host
-```ini
-# uncomment
-Include /usr/local/etc/httpd/extra/httpd-vhosts.conf
+#### Configure default virtual host.
+Create /Users/<username>/Support/apache-vhosts/localhost.conf file and put the next into it
 
-# Add line. Place all your vhosts configs into the folder. At least one config MUST be present in the folder
-Include /Users/<your-user>/Support/apache-vhosts/*.conf
-```
-
-#### Open in any text editor and replace the content with
 ```ini
 <VirtualHost *:80>
-    DocumentRoot "/Users/<your-user>/Support/localhost"
+    DocumentRoot "/Users/<username>/Support/localhost"
     
     ServerName localhost
     
@@ -161,8 +128,8 @@ SSLSessionCacheTimeout  300
     
     ServerName localhost
     
-    ErrorLog "/Users/<your-user>/Support/apache-log/localhost-ssl-error.log"
-    CustomLog "/Users/<your-user>/Support/apache-log/localhost-ssl-access.log" common
+    ErrorLog "/Users/<username>/Support/apache-log/localhost-ssl-error.log"
+    CustomLog "/Users/<username>/Support/apache-log/localhost-ssl-access.log" common
     
     SSLEngine on
     SSLCertificateFile "/Users/<your-user>/Support/apache-ssl/server.crt"
@@ -173,30 +140,30 @@ SSLSessionCacheTimeout  300
 #### Use next template for config.
 ```ini
 #
-# m2ce.dev
+# <site-domain>.test
 #
 <VirtualHost *:80>
-    DocumentRoot "/Users/<your-user>/<sites-folder>/m2ce"
+    DocumentRoot "/Users/<username>/<sites-folder>/<site-folder>"
     
-    ServerName m2ce.dev
-    ServerAlias alias-m2ce.dev alias-2-m2ce.dev
+    ServerName <site-domain>.test
+    ServerAlias <site-alias-1>.test <site-alias-2>.test
     
-    ErrorLog "/Users/<your-user>/Support/apache-log/mce-error.log"
-    CustomLog "/Users/<your-user>/Support/apache-log/mce-access.log" common
+    ErrorLog "/Users/<username>/Support/apache-log/<site-domain>-error.log"
+    CustomLog "/Users/<username>/Support/apache-log/<site-domain>-access.log" common
 </VirtualHost>
 
 <VirtualHost *:443>
-    DocumentRoot "/Users/<your-user>/<sites-folder>/m2ce"
+    DocumentRoot "/Users/<username>/<sites-folder>/<site-folder>"
     
-    ServerName m2ce.dev
-    ServerAlias alias-m2ce.dev alias-2-m2ce.dev
+    ServerName <site-domain>.test
+    ServerAlias <site-alias-1>.test <site-alias-2>.test
     
-    ErrorLog "/Users/<your-user>/Support/apache-log/mce-ssl-error.log"
-    CustomLog "/Users/<your-user>/Support/apache-log/mce-ssl-access.log" common
+    ErrorLog "/Users/<username>/Support/apache-log/<site-domain>-error.log"
+    CustomLog "/Users/<username>/Support/apache-log/<site-domain>-access.log" common
     
     SSLEngine on
-    SSLCertificateFile "/Users/<your-user>/Support/apache-ssl/server.crt"
-    SSLCertificateKeyFile "/Users/<your-user>/Support/apache-ssl/server.key"
+    SSLCertificateFile "/Users/<username>/Support/apache-ssl/server.crt"
+    SSLCertificateKeyFile "/Users/<username>/Support/apache-ssl/server.key"
 </VirtualHost>
 ```
 
